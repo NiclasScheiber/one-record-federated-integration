@@ -1,0 +1,5 @@
+select distinct ?s ?p ?o where { 
+	?s a <https://ontology.tno.nl/logistics/federated/Event#Event> .
+    ?s ?p ?o.
+    filter(regex(str(?p), "federated"))
+}

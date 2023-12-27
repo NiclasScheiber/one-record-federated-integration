@@ -1,0 +1,394 @@
+@prefix : <http://www.someurl.com/demo/ns/onerecord-federated#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix pi: <https://ontology.tno.nl/logistics/federated/PhysicalInfrastructure#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix twin: <https://ontology.tno.nl/logistics/federated/DigitalTwin#> .
+@prefix cargo: <https://onerecord.iata.org/ns/cargo#> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix events: <https://ontology.tno.nl/logistics/federated/Event#> .
+@prefix services: <https://ontology.tno.nl/logistics/federated/BusinessService#> .
+@base <http://www.someurl.com/demo/ns/onerecord-federated> .
+
+<http://www.someurl.com/demo/ns/onerecord-federated> rdf:type owl:Ontology ;
+                                                      owl:versionIRI <http://www.someurl.com/demo/ns/onerecord-federated/1.0.0> ;
+                                                      rdfs:comment """This non-resolvable ontology serves as demonstration on how to integrate the data model of ONE Record into the semantic model of FEDeRATED. It only covers selected elements of both semantic models.
+
+Used ontologies:
+ONE Record cargo ontology: 3.0.0
+FEDeRATED Event ontology: 2020-07-17
+FEDeRATED Digital Twin ontology: 2020-07-17
+FEDeRATED Business Service ontology: 2020-07-20
+FEDeRATED Physical Infrastructure ontology: 2020-07-17"""@en ;
+                                                      rdfs:label "ONE Record - FEDeRATED integration ontology"@en ;
+                                                      owl:versionInfo "1.0.0"@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.someurl.com/demo/ns/onerecord-federated#involvedPhysicalLogisticsObjects
+:involvedPhysicalLogisticsObjects rdf:type owl:ObjectProperty ;
+                                  rdfs:subPropertyOf events:involvesDigitalTwin ;
+                                  owl:inverseOf cargo:involvedInActions .
+
+
+###  http://www.someurl.com/demo/ns/onerecord-federated#movementTimesOfMovement
+:movementTimesOfMovement rdf:type owl:ObjectProperty ;
+                         owl:inverseOf cargo:movementTimes .
+
+
+###  https://onerecord.iata.org/ns/cargo#actionTimeType
+cargo:actionTimeType rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf events:hasDateTimeType .
+
+
+###  https://onerecord.iata.org/ns/cargo#arrivalLocation
+cargo:arrivalLocation rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#compositionType
+cargo:compositionType rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#departureLocation
+cargo:departureLocation rdf:type owl:ObjectProperty ;
+                        owl:propertyChainAxiom ( cargo:servedActivity
+                                                 cargo:loadingUnit
+                                               ) .
+
+
+###  https://onerecord.iata.org/ns/cargo#direction
+cargo:direction rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#involvedInActions
+cargo:involvedInActions rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf events:isInvolvedIn .
+
+
+###  https://onerecord.iata.org/ns/cargo#loadingType
+cargo:loadingType rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#loadingUnit
+cargo:loadingUnit rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#movementTimeType
+cargo:movementTimeType rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf events:hasDateTimeType .
+
+
+###  https://onerecord.iata.org/ns/cargo#movementTimes
+cargo:movementTimes rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#operatingTransportMeans
+cargo:operatingTransportMeans rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#servedActivity
+cargo:servedActivity rdf:type owl:ObjectProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#uldTypeCode
+cargo:uldTypeCode rdf:type owl:ObjectProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#hasDateTimeType
+events:hasDateTimeType rdf:type owl:ObjectProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#involvesDigitalTwin
+events:involvesDigitalTwin rdf:type owl:ObjectProperty ;
+                           owl:propertyChainAxiom ( cargo:servedActivity
+                                                    cargo:loadingUnit
+                                                  ) .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#involvesPhysicalInfrastructure
+events:involvesPhysicalInfrastructure rdf:type owl:ObjectProperty ;
+                                      owl:propertyChainAxiom ( :movementTimesOfMovement
+                                                               cargo:arrivalLocation
+                                                             ) ,
+                                                             ( :movementTimesOfMovement
+                                                               cargo:departureLocation
+                                                             ) .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#isInvolvedIn
+events:isInvolvedIn rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://onerecord.iata.org/ns/cargo#actionStartTime
+cargo:actionStartTime rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf events:hasTimestamp .
+
+
+###  https://onerecord.iata.org/ns/cargo#code
+cargo:code rdf:type owl:DatatypeProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#goodsDescription
+cargo:goodsDescription rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf twin:goodsDescription .
+
+
+###  https://onerecord.iata.org/ns/cargo#movementTimestamp
+cargo:movementTimestamp rdf:type owl:DatatypeProperty ;
+                        rdfs:subPropertyOf events:hasTimestamp .
+
+
+###  https://onerecord.iata.org/ns/cargo#numericalValue
+cargo:numericalValue rdf:type owl:DatatypeProperty .
+
+
+###  https://onerecord.iata.org/ns/cargo#uldSerialNumber
+cargo:uldSerialNumber rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf twin:ID .
+
+
+###  https://onerecord.iata.org/ns/cargo#vehicleRegistration
+cargo:vehicleRegistration rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf twin:hasTransportMeansID .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#ID
+twin:ID rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#equipmentCategoryCode
+twin:equipmentCategoryCode rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#goodsDescription
+twin:goodsDescription rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#goodsWeight
+twin:goodsWeight rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#grossWeight
+twin:grossWeight rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#hasTransportMeansID
+twin:hasTransportMeansID rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#tareWeight
+twin:tareWeight rdf:type owl:DatatypeProperty .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#hasTimestamp
+events:hasTimestamp rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://onerecord.iata.org/ns/cargo#ActionTimeType
+cargo:ActionTimeType rdf:type owl:Class ;
+                     rdfs:subClassOf events:DateTimeType .
+
+
+###  https://onerecord.iata.org/ns/cargo#Composing
+cargo:Composing rdf:type owl:Class .
+
+
+###  https://onerecord.iata.org/ns/cargo#Loading
+cargo:Loading rdf:type owl:Class .
+
+
+###  https://onerecord.iata.org/ns/cargo#Location
+cargo:Location rdf:type owl:Class ;
+               rdfs:subClassOf pi:Location .
+
+
+###  https://onerecord.iata.org/ns/cargo#MovementTime
+cargo:MovementTime rdf:type owl:Class ;
+                   rdfs:subClassOf events:DateTimeType .
+
+
+###  https://onerecord.iata.org/ns/cargo#Piece
+cargo:Piece rdf:type owl:Class ;
+            rdfs:subClassOf twin:Goods .
+
+
+###  https://onerecord.iata.org/ns/cargo#TransportMeans
+cargo:TransportMeans rdf:type owl:Class ;
+                     rdfs:subClassOf twin:Airplane .
+
+
+###  https://onerecord.iata.org/ns/cargo#TransportMovement
+cargo:TransportMovement rdf:type owl:Class ;
+                        rdfs:subClassOf services:TransportService .
+
+
+###  https://onerecord.iata.org/ns/cargo#ULD
+cargo:ULD rdf:type owl:Class ;
+          rdfs:subClassOf twin:ULD .
+
+
+###  https://ontology.tno.nl/logistics/federated/BusinessService#TransportService
+services:TransportService rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#Airplane
+twin:Airplane rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#Goods
+twin:Goods rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/DigitalTwin#ULD
+twin:ULD rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#ArrivalEvent
+events:ArrivalEvent rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty cargo:direction ;
+                                          owl:hasValue cargo:INBOUND
+                                        ] ;
+                    rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#DateTimeType
+events:DateTimeType rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#DepartureEvent
+events:DepartureEvent rdf:type owl:Class ;
+                      owl:equivalentClass [ rdf:type owl:Restriction ;
+                                            owl:onProperty cargo:direction ;
+                                            owl:hasValue cargo:OUTBOUND
+                                          ] ;
+                      rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#DischargeEvent
+events:DischargeEvent rdf:type owl:Class ;
+                      owl:equivalentClass [ rdf:type owl:Restriction ;
+                                            owl:onProperty cargo:loadingType ;
+                                            owl:hasValue cargo:UNLOADING
+                                          ] ;
+                      rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#Event
+events:Event rdf:type owl:Class .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#LoadEvent
+events:LoadEvent rdf:type owl:Class ;
+                 owl:equivalentClass [ rdf:type owl:Restriction ;
+                                       owl:onProperty cargo:loadingType ;
+                                       owl:hasValue cargo:LOADING
+                                     ] ;
+                 rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#StripEvent
+events:StripEvent rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Restriction ;
+                                        owl:onProperty cargo:compositionType ;
+                                        owl:hasValue cargo:DECOMPOSITION
+                                      ] ;
+                  rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#StuffEvent
+events:StuffEvent rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Restriction ;
+                                        owl:onProperty cargo:compositionType ;
+                                        owl:hasValue cargo:COMPOSITION
+                                      ] ;
+                  rdfs:subClassOf events:Event .
+
+
+###  https://ontology.tno.nl/logistics/federated/PhysicalInfrastructure#Location
+pi:Location rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://onerecord.iata.org/ns/cargo#ACTUAL
+cargo:ACTUAL rdf:type owl:NamedIndividual ;
+             owl:sameAs events:Actual .
+
+
+###  https://onerecord.iata.org/ns/cargo#COMPOSITION
+cargo:COMPOSITION rdf:type owl:NamedIndividual .
+
+
+###  https://onerecord.iata.org/ns/cargo#DECOMPOSITION
+cargo:DECOMPOSITION rdf:type owl:NamedIndividual .
+
+
+###  https://onerecord.iata.org/ns/cargo#ESTIMATED
+cargo:ESTIMATED rdf:type owl:NamedIndividual ;
+                owl:sameAs events:Estimated .
+
+
+###  https://onerecord.iata.org/ns/cargo#INBOUND
+cargo:INBOUND rdf:type owl:NamedIndividual .
+
+
+###  https://onerecord.iata.org/ns/cargo#LOADING
+cargo:LOADING rdf:type owl:NamedIndividual .
+
+
+###  https://onerecord.iata.org/ns/cargo#OUTBOUND
+cargo:OUTBOUND rdf:type owl:NamedIndividual .
+
+
+###  https://onerecord.iata.org/ns/cargo#PLANNED
+cargo:PLANNED rdf:type owl:NamedIndividual ;
+              owl:sameAs events:Planned .
+
+
+###  https://onerecord.iata.org/ns/cargo#REQUESTED
+cargo:REQUESTED rdf:type owl:NamedIndividual ;
+                owl:sameAs events:requested .
+
+
+###  https://onerecord.iata.org/ns/cargo#SCHEDULED
+cargo:SCHEDULED rdf:type owl:NamedIndividual ;
+                owl:sameAs events:Planned .
+
+
+###  https://onerecord.iata.org/ns/cargo#UNLOADING
+cargo:UNLOADING rdf:type owl:NamedIndividual .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#Actual
+events:Actual rdf:type owl:NamedIndividual .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#Estimated
+events:Estimated rdf:type owl:NamedIndividual .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#Planned
+events:Planned rdf:type owl:NamedIndividual .
+
+
+###  https://ontology.tno.nl/logistics/federated/Event#requested
+events:requested rdf:type owl:NamedIndividual .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
